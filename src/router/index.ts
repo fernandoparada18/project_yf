@@ -149,12 +149,10 @@ const router = createRouter({
       },
     },
     {
-      path: '/asistencia/:id',
+      path: '/asistencia/:id?',
       name: 'Asistencia',
-      component: () => import('../views/System/AsistenciaView.vue'),
-      meta: {
-        title: 'Asistencia',
-      },
+      component: () => import('@/views/System/AsistenciaView.vue'),
+      meta: { requiresAuth: true, title: 'Asistencia' }
     },
     {
       path: '/signup',

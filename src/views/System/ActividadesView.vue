@@ -1,79 +1,82 @@
 <template>
-  <div>
-    <!-- Breadcrumb -->
-    <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-      <h2 class="text-title-md2 font-bold text-black dark:text-white">
-        Actividades
-      </h2>
-    </div>
-
-    <!-- Table Section -->
-    <div class="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-      <div class="flex justify-between items-center mb-4">
-        <h4 class="text-xl font-bold text-black dark:text-white">Listado de Actividades</h4>
-        <button @click="openModal()" class="flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-90">
-          Nueva Actividad
-        </button>
+  <AdminLayout>
+    <div>
+      <!-- Breadcrumb -->
+      <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <h2 class="text-title-md2 font-bold text-black dark:text-white">
+          Actividades
+        </h2>
       </div>
 
-      <div class="max-w-full overflow-x-auto">
-        <table class="w-full table-auto">
-          <thead>
-            <tr class="bg-gray-2 text-left dark:bg-meta-4">
-              <th class="py-4 px-4 font-medium text-black dark:text-white">Fecha</th>
-              <th class="py-4 px-4 font-medium text-black dark:text-white">Descripción</th>
-              <th class="py-4 px-4 font-medium text-black dark:text-white">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-if="isLoading">
-              <td colspan="3" class="text-center py-4">Cargando...</td>
-            </tr>
-            <tr v-else-if="activities.length === 0">
-              <td colspan="3" class="text-center py-4">No hay actividades registradas.</td>
-            </tr>
-            <tr v-for="activity in activities" :key="activity.id" class="border-b border-stroke dark:border-strokedark">
-              <td class="py-5 px-4"><p class="text-black dark:text-white">{{ activity.fecha }}</p></td>
-              <td class="py-5 px-4"><p class="text-black dark:text-white">{{ activity.descripcion }}</p></td>
-              <td class="py-5 px-4">
-                <div class="flex items-center space-x-3.5">
-                  <router-link :to="`/asistencia/${activity.id}`" class="text-blue-500 hover:text-blue-700 font-medium">Ver Asistencia</router-link>
-                  <button @click="openModal(activity)" class="hover:text-primary">Editar</button>
-                  <button @click="handleDelete(activity.id!)" class="hover:text-red-500">Eliminar</button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+      <!-- Table Section -->
+      <div class="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+        <div class="flex justify-between items-center mb-4">
+          <h4 class="text-xl font-bold text-black dark:text-white">Listado de Actividades</h4>
+          <button @click="openModal()" class="flex justify-center rounded bg-primary py-2 px-6 font-medium text-white hover:bg-opacity-90">
+            Nueva Actividad
+          </button>
+        </div>
 
-    <!-- Modal Form -->
-    <div v-if="isModalOpen" class="fixed inset-0 z-9999 flex items-center justify-center bg-black/50 p-4">
-      <div class="w-full max-w-md rounded-lg bg-white p-8 shadow-default dark:bg-boxdark">
-        <h3 class="mb-4 text-xl font-bold text-black dark:text-white">
-          {{ editingId ? 'Editar Actividad' : 'Nueva Actividad' }}
-        </h3>
-        <form @submit.prevent="handleSubmit">
-          <div class="mb-4">
-            <label class="mb-2.5 block font-medium text-black dark:text-white">Fecha</label>
-            <input v-model="form.fecha" type="date" required class="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input" />
-          </div>
-          <div class="mb-6">
-            <label class="mb-2.5 block font-medium text-black dark:text-white">Descripción</label>
-            <textarea v-model="form.descripcion" rows="3" required class="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input"></textarea>
-          </div>
-          <div class="flex justify-end gap-4">
-            <button type="button" @click="closeModal" class="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white">Cancelar</button>
-            <button type="submit" class="flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-90">Guardar</button>
-          </div>
-        </form>
+        <div class="max-w-full overflow-x-auto">
+          <table class="w-full table-auto">
+            <thead>
+              <tr class="bg-gray-2 text-left dark:bg-meta-4">
+                <th class="py-4 px-4 font-medium text-black dark:text-white">Fecha</th>
+                <th class="py-4 px-4 font-medium text-black dark:text-white">Descripción</th>
+                <th class="py-4 px-4 font-medium text-black dark:text-white">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-if="isLoading">
+                <td colspan="3" class="text-center py-4">Cargando...</td>
+              </tr>
+              <tr v-else-if="activities.length === 0">
+                <td colspan="3" class="text-center py-4">No hay actividades registradas.</td>
+              </tr>
+              <tr v-for="activity in activities" :key="activity.id" class="border-b border-stroke dark:border-strokedark">
+                <td class="py-5 px-4"><p class="text-black dark:text-white">{{ activity.fecha }}</p></td>
+                <td class="py-5 px-4"><p class="text-black dark:text-white">{{ activity.descripcion }}</p></td>
+                <td class="py-5 px-4">
+                  <div class="flex items-center space-x-3.5">
+                    <router-link :to="`/asistencia/${activity.id}`" class="text-blue-500 hover:text-blue-700 font-medium">Ver Asistencia</router-link>
+                    <button @click="openModal(activity)" class="hover:text-primary">Editar</button>
+                    <button @click="handleDelete(activity.id!)" class="hover:text-red-500">Eliminar</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Modal Form -->
+      <div v-if="isModalOpen" class="fixed inset-0 z-9999 flex items-center justify-center bg-black/50 p-4">
+        <div class="w-full max-w-md rounded-lg bg-white p-8 shadow-default dark:bg-boxdark">
+          <h3 class="mb-4 text-xl font-bold text-black dark:text-white">
+            {{ editingId ? 'Editar Actividad' : 'Nueva Actividad' }}
+          </h3>
+          <form @submit.prevent="handleSubmit">
+            <div class="mb-4">
+              <label class="mb-2.5 block font-medium text-black dark:text-white">Fecha</label>
+              <input v-model="form.fecha" type="date" required class="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input" />
+            </div>
+            <div class="mb-6">
+              <label class="mb-2.5 block font-medium text-black dark:text-white">Descripción</label>
+              <textarea v-model="form.descripcion" rows="3" required class="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input"></textarea>
+            </div>
+            <div class="flex justify-end gap-4">
+              <button type="button" @click="closeModal" class="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white">Cancelar</button>
+              <button type="submit" class="flex justify-center rounded bg-primary py-2 px-6 font-medium text-white hover:bg-opacity-90">Guardar</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
+  </AdminLayout>
 </template>
 
 <script setup lang="ts">
+import AdminLayout from '@/components/layout/AdminLayout.vue'
 import { ref, onMounted } from 'vue'
 import { getActivities, createActivity, updateActivity, deleteActivity, type Activity } from '@/services/api'
 

@@ -274,6 +274,11 @@ const menuGroups: MenuGroup[] = [
         icon: CalenderIcon,
         name: 'Actividades',
         path: '/actividades',
+      },
+      {
+        icon: ListIcon,
+        name: 'Asistencia',
+        path: '/asistencia',
       }
     ],
   },
