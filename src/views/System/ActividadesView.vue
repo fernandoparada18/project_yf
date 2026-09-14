@@ -38,7 +38,7 @@
                 <td class="py-5 px-4"><p class="text-black dark:text-white">{{ activity.descripcion }}</p></td>
                 <td class="py-5 px-4">
                   <div class="flex items-center space-x-3.5">
-                    <router-link :to="`/asistencia/${activity.id}`" class="text-blue-500 hover:text-blue-700 font-medium">Ver Asistencia</router-link>
+                    <router-link :to="`/asistencia/${activity.id}`" class="text-blue-500 hover:text-blue-700 font-medium">Gestionar Asistencia</router-link>
                     <button @click="openModal(activity)" class="hover:text-primary">Editar</button>
                     <button @click="handleDelete(activity.id!)" class="hover:text-red-500">Eliminar</button>
                   </div>

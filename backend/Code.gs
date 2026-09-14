@@ -122,6 +122,7 @@ function createRecord(sheetName, payload) {
   
   const rowData = headers.map(header => payload[header] || '');
   sheet.appendRow(rowData);
+  SpreadsheetApp.flush(); // Ensure data is written immediately
   
   // Limpiar contraseña antes de devolver si es usuario
   if (sheetName === SHEET_USERS) delete payload.password;
@@ -152,6 +153,7 @@ function updateRecord(sheetName, payload) {
   });
   
   sheet.getRange(rowIndex, 1, 1, headers.length).setValues([updatedRow]);
+  SpreadsheetApp.flush();
   
   if (sheetName === SHEET_USERS) delete payload.password;
   return { success: true, data: payload };
@@ -172,6 +174,7 @@ function deleteRecord(sheetName, id) {
   if (rowIndex === -1) throw new Error("Registro no encontrado");
   
   sheet.deleteRow(rowIndex);
+  SpreadsheetApp.flush();
   return { success: true };
 }
 
