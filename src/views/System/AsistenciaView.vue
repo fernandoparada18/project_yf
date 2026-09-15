@@ -69,44 +69,53 @@
       </div>
 
       <!-- Modal Form -->
-      <div v-if="isModalOpen" class="fixed inset-0 z-9999 flex items-center justify-center bg-black/50 p-4">
-        <div class="w-full max-w-md rounded-lg bg-white p-8 shadow-default dark:bg-boxdark max-h-[90vh] overflow-y-auto">
-          <h3 class="mb-4 text-xl font-bold text-black dark:text-white">
-            Registrar Asistente
-          </h3>
-          <form @submit.prevent="handleSubmit">
-            <div class="mb-4">
-              <label class="mb-2.5 block font-medium text-black dark:text-white">Nacionalidad</label>
-              <select v-model="form.nacionalidad" required class="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input">
-                <option value="V">Venezolano (V)</option>
-                <option value="E">Extranjero (E)</option>
-              </select>
-            </div>
-            <div class="mb-4">
-              <label class="mb-2.5 block font-medium text-black dark:text-white">Cédula</label>
-              <input v-model="form.cedula" type="text" required class="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input" />
-            </div>
-            <div class="mb-4">
-              <label class="mb-2.5 block font-medium text-black dark:text-white">Nombre</label>
-              <input v-model="form.nombre" type="text" required class="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input" />
-            </div>
-            <div class="mb-4">
-              <label class="mb-2.5 block font-medium text-black dark:text-white">Apellido</label>
-              <input v-model="form.apellido" type="text" required class="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input" />
-            </div>
-            <div class="mb-4">
-              <label class="mb-2.5 block font-medium text-black dark:text-white">Teléfono</label>
-              <input v-model="form.telefono" type="text" required class="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input" />
-            </div>
-            <div class="mb-6">
-              <label class="mb-2.5 block font-medium text-black dark:text-white">Correo Electrónico</label>
-              <input v-model="form.correo" type="email" required class="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input" />
-            </div>
-            <div class="flex justify-end gap-4">
-              <button type="button" @click="closeModal" class="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white">Cancelar</button>
-              <button type="submit" class="flex justify-center rounded bg-primary py-2 px-6 font-medium text-white hover:bg-opacity-90">Guardar</button>
-            </div>
-          </form>
+      <div v-if="isModalOpen" class="fixed inset-0 z-99999 flex items-center justify-center bg-black/50 p-4">
+        <div class="w-full max-w-md flex flex-col rounded-lg bg-white shadow-default dark:bg-boxdark max-h-[90vh]">
+          <!-- Sticky Header -->
+          <div class="p-6 border-b border-stroke dark:border-strokedark rounded-t-lg bg-white dark:bg-boxdark z-10">
+            <h3 class="text-xl font-bold text-black dark:text-white">
+              Registrar Asistente
+            </h3>
+          </div>
+          
+          <!-- Scrollable Body -->
+          <div class="p-6 overflow-y-auto flex-1">
+            <form @submit.prevent="handleSubmit" id="attendanceForm">
+              <div class="mb-4">
+                <label class="mb-2.5 block font-medium text-black dark:text-white">Nacionalidad</label>
+                <select v-model="form.nacionalidad" required class="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input">
+                  <option value="V">Venezolano (V)</option>
+                  <option value="E">Extranjero (E)</option>
+                </select>
+              </div>
+              <div class="mb-4">
+                <label class="mb-2.5 block font-medium text-black dark:text-white">Cédula</label>
+                <input v-model="form.cedula" type="text" required class="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input" />
+              </div>
+              <div class="mb-4">
+                <label class="mb-2.5 block font-medium text-black dark:text-white">Nombre</label>
+                <input v-model="form.nombre" type="text" required class="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input" />
+              </div>
+              <div class="mb-4">
+                <label class="mb-2.5 block font-medium text-black dark:text-white">Apellido</label>
+                <input v-model="form.apellido" type="text" required class="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input" />
+              </div>
+              <div class="mb-4">
+                <label class="mb-2.5 block font-medium text-black dark:text-white">Teléfono</label>
+                <input v-model="form.telefono" type="text" required class="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input" />
+              </div>
+              <div class="mb-6">
+                <label class="mb-2.5 block font-medium text-black dark:text-white">Correo Electrónico</label>
+                <input v-model="form.correo" type="email" required class="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input" />
+              </div>
+            </form>
+          </div>
+
+          <!-- Sticky Footer -->
+          <div class="p-6 border-t border-stroke dark:border-strokedark rounded-b-lg bg-white dark:bg-boxdark z-10 flex justify-end gap-4">
+            <button type="button" @click="closeModal" class="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white">Cancelar</button>
+            <button type="submit" form="attendanceForm" class="flex justify-center rounded bg-primary py-2 px-6 font-medium text-white hover:bg-opacity-90">Guardar</button>
+          </div>
         </div>
       </div>
     </div>
