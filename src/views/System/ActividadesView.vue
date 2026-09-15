@@ -12,7 +12,7 @@
       <div class="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
         <div class="flex justify-between items-center mb-4">
           <h4 class="text-xl font-bold text-black dark:text-white">Listado de Actividades</h4>
-          <button @click="openModal()" class="flex justify-center rounded bg-primary py-2 px-6 font-medium text-white hover:bg-opacity-90">
+          <button @click="openModal()" class="flex justify-center rounded bg-brand-500 py-2 px-6 font-medium text-white hover:bg-brand-600">
             Nueva Actividad
           </button>
         </div>
@@ -66,7 +66,7 @@
             </div>
             <div class="flex justify-end gap-4">
               <button type="button" @click="closeModal" class="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white">Cancelar</button>
-              <button type="submit" class="flex justify-center rounded bg-primary py-2 px-6 font-medium text-white hover:bg-opacity-90">Guardar</button>
+              <button type="submit" class="flex justify-center rounded bg-brand-500 py-2 px-6 font-medium text-white hover:bg-brand-600">Guardar</button>
             </div>
           </form>
         </div>
