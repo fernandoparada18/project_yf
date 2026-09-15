@@ -5,10 +5,10 @@
     <div class="flex justify-between">
       <div>
         <h3 class="text-lg font-semibold text-gray-800 dark:text-white/90">
-          Customers Demographic
+          Demografía de Clientes
         </h3>
         <p class="mt-1 text-gray-500 text-theme-sm dark:text-gray-400">
-          Number of customer based on country
+          Número de clientes por país
         </p>
       </div>
     </div>
@@ -28,9 +28,9 @@
             <img src="/images/country/country-01.svg" alt="usa" />
           </div>
           <div>
-            <p class="font-semibold text-gray-800 text-theme-sm dark:text-white/90">USA</p>
+            <p class="font-semibold text-gray-800 text-theme-sm dark:text-white/90">EE. UU.</p>
             <span class="block text-gray-500 text-theme-xs dark:text-gray-400">
-              2,379 Customers
+              2,379 Clientes
             </span>
           </div>
         </div>
@@ -51,9 +51,9 @@
             <img src="/images/country/country-02.svg" alt="france" />
           </div>
           <div>
-            <p class="font-semibold text-gray-800 text-theme-sm dark:text-white/90">France</p>
+            <p class="font-semibold text-gray-800 text-theme-sm dark:text-white/90">Francia</p>
             <span class="block text-gray-500 text-theme-xs dark:text-gray-400">
-              589 Customers
+              589 Clientes
             </span>
           </div>
         </div>

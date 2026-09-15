@@ -25,8 +25,8 @@
 
       <div class="flex items-end justify-between mt-5">
         <div>
-          <span class="text-sm text-gray-500 dark:text-gray-400">Customers</span>
-          <h4 class="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">3,782</h4>
+          <span class="text-sm text-gray-500 dark:text-gray-400">Personas</span>
+          <h4 class="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">{{ totalPersonas }}</h4>
         </div>
 
         <span
@@ -78,8 +78,8 @@
 
       <div class="flex items-end justify-between mt-5">
         <div>
-          <span class="text-sm text-gray-500 dark:text-gray-400">Orders</span>
-          <h4 class="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">5,359</h4>
+          <span class="text-sm text-gray-500 dark:text-gray-400">Actividades</span>
+          <h4 class="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">{{ totalActividades }}</h4>
         </div>
 
         <span
@@ -107,3 +107,39 @@
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import { getActivities, getAttendance } from '@/services/api'
+
+const totalPersonas = ref(0)
+const totalActividades = ref(0)
+
+onMounted(async () => {
+  try {
+    const actsRes = await getActivities()
+    if (actsRes.success) {
+      const activities = actsRes.data || []
+      totalActividades.value = activities.length
+
+      const cedulas = new Set()
+      // Fetch attendance for each activity to calculate unique attendees
+      for (const act of activities) {
+        if (act.id) {
+          const attRes = await getAttendance(act.id)
+          if (attRes.success && attRes.data) {
+            for (const att of attRes.data) {
+              if (att.cedula) {
+                cedulas.add(att.cedula)
+              }
+            }
+          }
+        }
+      }
+      totalPersonas.value = cedulas.size
+    }
+  } catch (error) {
+    console.error('Error fetching metrics data:', error)
+  }
+})
+</script>

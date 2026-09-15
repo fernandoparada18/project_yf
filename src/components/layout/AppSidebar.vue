@@ -260,8 +260,8 @@ const menuGroups: MenuGroup[] = [
     items: [
       {
         icon: GridIcon,
-        name: 'Dashboard',
-        subItems: [{ name: 'Inicio', path: '/', pro: false }],
+        name: 'Inicio',
+        subItems: [{ name: 'Resumen', path: '/', pro: false }],
       },
       {
         icon: UserCircleIcon,
