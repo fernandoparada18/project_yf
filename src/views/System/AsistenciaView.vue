@@ -5,7 +5,7 @@
         <h2 class="text-title-md2 font-bold text-black dark:text-white">
           Registro de Asistencia
         </h2>
-        <button @click="openModal" class="flex justify-center rounded bg-brand-500 py-2 px-6 font-medium text-white hover:bg-brand-600 shadow-1">
+        <button @click="openModal()" class="flex justify-center rounded bg-brand-500 py-2 px-6 font-medium text-white hover:bg-brand-600 shadow-1">
           + Registrar Asistencia
         </button>
       </div>
