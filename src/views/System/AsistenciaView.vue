@@ -12,19 +12,28 @@
 
       <!-- Activity Selector -->
       <div class="mb-6 rounded-sm border border-stroke bg-white px-5 py-4 shadow-default dark:border-strokedark dark:bg-boxdark">
-        <label class="mb-2.5 block font-medium text-black dark:text-white">Seleccione una Actividad para ver/registrar asistencia</label>
+        <label class="mb-2.5 block font-medium text-black dark:text-white">1. Seleccione una Actividad en la lista desplegable</label>
         <select v-model="selectedActivityId" @change="fetchAttendance" class="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input">
           <option value="" disabled>Seleccione una actividad...</option>
           <option v-for="act in activities" :key="act.id" :value="act.id">
             {{ act.fecha }} - {{ act.descripcion }}
           </option>
         </select>
+        
+        <div class="mt-4 flex justify-end">
+          <button @click="openModal" class="flex justify-center rounded bg-primary py-3 px-8 font-medium text-white hover:bg-opacity-90 shadow-1 text-lg">
+            2. Registrar Nueva Asistencia
+          </button>
+        </div>
       </div>
 
       <!-- Table Section -->
       <div v-if="selectedActivityId" class="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
         <div class="flex justify-between items-center mb-4">
           <h4 class="text-xl font-bold text-black dark:text-white">Listado de Asistentes</h4>
+          <button @click="openModal" class="flex justify-center rounded bg-primary py-2 px-6 font-medium text-white hover:bg-opacity-90">
+            Registrar Asistente
+          </button>
         </div>
 
         <div class="max-w-full overflow-x-auto">
@@ -44,7 +53,7 @@
                 <td colspan="6" class="text-center py-4">Cargando...</td>
               </tr>
               <tr v-else-if="attendanceList.length === 0">
-                <td colspan="6" class="text-center py-4">No hay asistentes registrados para esta actividad.</td>
+                <td colspan="6" class="text-center py-4">No hay asistentes registrados para esta actividad. Haga clic en el botón de Registrar Asistencia.</td>
               </tr>
               <tr v-for="att in attendanceList" :key="att.id" class="border-b border-stroke dark:border-strokedark">
                 <td class="py-5 px-4"><p class="text-black dark:text-white">{{ att.nacionalidad }}</p></td>
