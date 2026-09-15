@@ -60,6 +60,12 @@ function doPost(e) {
       case 'createAttendance':
         result = createRecord(SHEET_ATTENDANCE, data.payload);
         break;
+      case 'updateAttendance':
+        result = updateRecord(SHEET_ATTENDANCE, data.payload);
+        break;
+      case 'deleteAttendance':
+        result = deleteRecord(SHEET_ATTENDANCE, data.payload.id);
+        break;
       default:
         return jsonResponse({ success: false, error: 'Acción no válida' }, 400);
     }

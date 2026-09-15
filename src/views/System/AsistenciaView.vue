@@ -37,14 +37,15 @@
                 <th class="py-4 px-4 font-medium text-black dark:text-white">Apellido</th>
                 <th class="py-4 px-4 font-medium text-black dark:text-white">Teléfono</th>
                 <th class="py-4 px-4 font-medium text-black dark:text-white">Correo</th>
+                <th class="py-4 px-4 font-medium text-black dark:text-white">Acciones</th>
               </tr>
             </thead>
             <tbody>
               <tr v-if="isLoading">
-                <td colspan="6" class="text-center py-4">Cargando...</td>
+                <td colspan="7" class="text-center py-4">Cargando...</td>
               </tr>
               <tr v-else-if="attendanceList.length === 0">
-                <td colspan="6" class="text-center py-4">No hay asistentes registrados para esta actividad. Haga clic en el botón de Registrar Asistencia.</td>
+                <td colspan="7" class="text-center py-4">No hay asistentes registrados para esta actividad. Haga clic en el botón de Registrar Asistencia.</td>
               </tr>
               <tr v-for="att in attendanceList" :key="att.id" class="border-b border-stroke dark:border-strokedark">
                 <td class="py-5 px-4"><p class="text-black dark:text-white">{{ att.nacionalidad }}</p></td>
@@ -53,6 +54,16 @@
                 <td class="py-5 px-4"><p class="text-black dark:text-white">{{ att.apellido }}</p></td>
                 <td class="py-5 px-4"><p class="text-black dark:text-white">{{ att.telefono }}</p></td>
                 <td class="py-5 px-4"><p class="text-black dark:text-white">{{ att.correo }}</p></td>
+                <td class="py-5 px-4">
+                  <div class="flex items-center space-x-3.5">
+                    <button @click="openModal(att)" class="hover:text-primary" title="Editar">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                    </button>
+                    <button @click="handleDelete(att.id!)" class="hover:text-red-500" title="Eliminar">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    </button>
+                  </div>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -65,7 +76,7 @@
           <!-- Sticky Header -->
           <div class="p-6 border-b border-stroke dark:border-strokedark rounded-t-lg bg-white dark:bg-boxdark z-10">
             <h3 class="text-xl font-bold text-black dark:text-white">
-              Registrar Asistente
+              {{ editingId ? 'Editar Asistente' : 'Registrar Asistente' }}
             </h3>
           </div>
           
@@ -120,7 +131,8 @@
 import AdminLayout from '@/components/layout/AdminLayout.vue'
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { getActivities, getAttendance, createAttendance, type Activity, type Attendance } from '@/services/api'
+import { getActivities, getAttendance, createAttendance, updateAttendance, deleteAttendance } from '@/services/api'
+import type { Attendance, Activity } from '@/services/api'
 
 const route = useRoute()
 const selectedActivityId = ref<string>((route.params.id as string) || '')
@@ -129,6 +141,7 @@ const attendanceList = ref<Attendance[]>([])
 const isLoading = ref(false)
 const isModalOpen = ref(false)
 const isSubmitting = ref(false)
+const editingId = ref<string | null>(null)
 
 const form = ref<Attendance>({
   actividad_id: '',
@@ -161,36 +174,54 @@ const fetchAttendance = async () => {
   isLoading.value = false
 }
 
-const openModal = () => {
+const openModal = (att?: Attendance) => {
   if (!selectedActivityId.value) {
     alert('Por favor, seleccione una actividad primero en la lista desplegable antes de registrar asistencia.');
     return;
   }
-  form.value = {
-    actividad_id: selectedActivityId.value,
-    nacionalidad: 'V',
-    cedula: '',
-    nombre: '',
-    apellido: '',
-    telefono: '',
-    correo: ''
+  if (att) {
+    editingId.value = att.id || null;
+    form.value = { ...att };
+  } else {
+    editingId.value = null;
+    form.value = {
+      actividad_id: selectedActivityId.value,
+      nacionalidad: 'V',
+      cedula: '',
+      nombre: '',
+      apellido: '',
+      telefono: '',
+      correo: ''
+    }
   }
   isModalOpen.value = true
 }
 
 const closeModal = () => {
   isModalOpen.value = false
+  editingId.value = null
 }
 
 const handleSubmit = async () => {
   if (isSubmitting.value) return;
   isSubmitting.value = true;
   try {
-    await createAttendance(form.value)
+    if (editingId.value) {
+      await updateAttendance({ ...form.value, id: editingId.value })
+    } else {
+      await createAttendance(form.value)
+    }
     closeModal()
     fetchAttendance()
   } finally {
     isSubmitting.value = false;
+  }
+}
+
+const handleDelete = async (id: string) => {
+  if (confirm('¿Estás seguro de eliminar este asistente?')) {
+    await deleteAttendance(id)
+    fetchAttendance()
   }
 }
 </script>

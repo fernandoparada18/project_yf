@@ -64,3 +64,5 @@ export const deleteActivity = (id: string) => gasRequest('deleteActivity', { id 
 // Attendance
 export const getAttendance = (actividad_id: string) => gasRequest('getAttendance', { actividad_id });
 export const createAttendance = (attendance: Attendance) => gasRequest('createAttendance', attendance);
+export const updateAttendance = (attendance: Attendance) => gasRequest('updateAttendance', attendance);
+export const deleteAttendance = (id: string) => gasRequest('deleteAttendance', { id });
