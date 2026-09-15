@@ -1,11 +1,13 @@
 <template>
   <AdminLayout>
     <div>
-      <!-- Breadcrumb -->
-      <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div class="flex justify-between items-center mb-6">
         <h2 class="text-title-md2 font-bold text-black dark:text-white">
           Registro de Asistencia
         </h2>
+        <button @click="openModal" class="flex justify-center rounded bg-primary py-2 px-6 font-medium text-white hover:bg-opacity-90 shadow-1">
+          + Registrar Asistencia
+        </button>
       </div>
 
       <!-- Activity Selector -->
@@ -22,10 +24,7 @@
       <!-- Table Section -->
       <div v-if="selectedActivityId" class="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
         <div class="flex justify-between items-center mb-4">
-          <h4 class="text-xl font-bold text-black dark:text-white">Asistentes</h4>
-          <button @click="openModal" class="flex justify-center rounded bg-primary py-2 px-6 font-medium text-white hover:bg-opacity-90">
-            Registrar Asistente
-          </button>
+          <h4 class="text-xl font-bold text-black dark:text-white">Listado de Asistentes</h4>
         </div>
 
         <div class="max-w-full overflow-x-auto">
@@ -150,6 +149,10 @@ const fetchAttendance = async () => {
 }
 
 const openModal = () => {
+  if (!selectedActivityId.value) {
+    alert('Por favor, seleccione una actividad primero en la lista desplegable antes de registrar asistencia.');
+    return;
+  }
   form.value = {
     actividad_id: selectedActivityId.value,
     nacionalidad: 'V',
