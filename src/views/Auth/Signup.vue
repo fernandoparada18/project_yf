@@ -263,13 +263,18 @@
                       </label>
                     </div>
                   </div>
+                  <!-- Error Message -->
+                  <div v-if="errorMessage" class="text-sm text-red-500 mt-2">
+                    {{ errorMessage }}
+                  </div>
                   <!-- Button -->
                   <div>
                     <button
                       type="submit"
-                      class="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white transition rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600"
+                      :disabled="isLoading"
+                      class="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white transition rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600 disabled:opacity-50"
                     >
-                      Regístrate
+                      {{ isLoading ? 'Registrando...' : 'Regístrate' }}
                     </button>
                   </div>
                 </div>
@@ -313,7 +318,9 @@
 import FullScreenLayout from '@/components/layout/FullScreenLayout.vue'
 import CommonGridShape from '@/components/common/CommonGridShape.vue'
 import { ref } from 'vue'
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
+import { createUser } from '@/services/api'
+import { hashPassword } from '@/utils/crypto'
 
 const firstName = ref('')
 const lastName = ref('')
@@ -326,13 +333,37 @@ const togglePasswordVisibility = () => {
   showPassword.value = !showPassword.value
 }
 
-const handleSubmit = () => {
-  console.log('Form submitted', {
-    firstName: firstName.value,
-    lastName: lastName.value,
-    email: email.value,
-    password: password.value,
-    agreeToTerms: agreeToTerms.value,
-  })
+const router = useRouter()
+const isLoading = ref(false)
+const errorMessage = ref('')
+
+const handleSubmit = async () => {
+  if (!agreeToTerms.value) {
+    errorMessage.value = 'Debes aceptar los términos y condiciones.'
+    return
+  }
+
+  isLoading.value = true
+  errorMessage.value = ''
+
+  try {
+    const hashedPassword = await hashPassword(password.value)
+    const userPayload = {
+      nombre: `${firstName.value} ${lastName.value}`,
+      email: email.value,
+      password: hashedPassword
+    }
+
+    const res = await createUser(userPayload)
+    if (res && res.success) {
+      router.push('/signin')
+    } else {
+      errorMessage.value = res.error || 'Error al crear la cuenta.'
+    }
+  } catch (error) {
+    errorMessage.value = 'Error de conexión'
+  } finally {
+    isLoading.value = false
+  }
 }
 </script>

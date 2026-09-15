@@ -1,6 +1,6 @@
 // URL de la Aplicación Web de Google Apps Script. 
 // Reemplaza esto con la URL que obtengas al implementar tu script.
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbww63AABpGd-mZeeOa4H-k9bXOvCx75UsfrbOyusgB0fHQDOOIpmMTuvBt6JECf2r78/exec';
+const GAS_URL = import.meta.env.VITE_GAS_URL;
 
 export interface User {
   id?: string;
