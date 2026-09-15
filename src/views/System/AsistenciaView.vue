@@ -105,7 +105,10 @@
           <!-- Sticky Footer -->
           <div class="p-6 border-t border-stroke dark:border-strokedark rounded-b-lg bg-white dark:bg-boxdark z-10 flex justify-end gap-4">
             <button type="button" @click="closeModal" class="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white">Cancelar</button>
-              <button type="submit" form="attendanceForm" class="flex justify-center rounded bg-brand-500 py-2 px-6 font-medium text-white hover:bg-brand-600">Guardar</button>
+            <button type="submit" form="attendanceForm" :disabled="isSubmitting" class="flex justify-center rounded bg-brand-500 py-2 px-6 font-medium text-white hover:bg-brand-600 disabled:opacity-50 disabled:cursor-not-allowed">
+              <span v-if="isSubmitting" class="mr-2 inline-block h-5 w-5 animate-spin rounded-full border-2 border-solid border-white border-t-transparent"></span>
+              {{ isSubmitting ? 'Guardando...' : 'Guardar' }}
+            </button>
           </div>
         </div>
       </div>
@@ -125,6 +128,7 @@ const activities = ref<Activity[]>([])
 const attendanceList = ref<Attendance[]>([])
 const isLoading = ref(false)
 const isModalOpen = ref(false)
+const isSubmitting = ref(false)
 
 const form = ref<Attendance>({
   actividad_id: '',
@@ -179,8 +183,14 @@ const closeModal = () => {
 }
 
 const handleSubmit = async () => {
-  await createAttendance(form.value)
-  closeModal()
-  fetchAttendance()
+  if (isSubmitting.value) return;
+  isSubmitting.value = true;
+  try {
+    await createAttendance(form.value)
+    closeModal()
+    fetchAttendance()
+  } finally {
+    isSubmitting.value = false;
+  }
 }
 </script>
