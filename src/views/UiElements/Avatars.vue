@@ -40,6 +40,6 @@ import ComponentCard from '@/components/common/ComponentCard.vue'
 import Avatar from '@/components/ui/Avatar.vue'
 const currentPageTitle = ref('Avatars')
 
-const avatarSrc = '/images/user/user-01.jpg'
+const avatarSrc = '/project_yf/images/user/user-01.jpg'
 const sizes = ['xsmall', 'small', 'medium', 'large', 'xlarge', 'xxlarge'] as const
 </script>

@@ -111,9 +111,9 @@
             >
               <span>{{ currentLang.shortName }}</span>
               <img
-                :src="'/images/icons/' + currentLang.flag"
-                :alt="currentLang.shortName"
-                class="size-3.5 shrink-0 overflow-hidden rounded-full object-cover"
+                :src="'/project_yf/images/icons/' + currentLang.flag"
+                :alt="currentLang.name"
+                class="size-5 shrink-0 overflow-hidden rounded-full object-cover"
               />
             </span>
           </button>
@@ -145,7 +145,7 @@
                       "
                     ></span>
                     <img
-                      :src="'/images/icons/' + language.flag"
+                      :src="'/project_yf/images/icons/' + language.flag"
                       :alt="language.name"
                       class="size-5 shrink-0 overflow-hidden rounded-full object-cover"
                     />

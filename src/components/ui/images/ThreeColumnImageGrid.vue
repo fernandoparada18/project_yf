@@ -12,8 +12,8 @@
 
 <script setup>
 const images = [
-  { src: '/images/grid-image/image-04.png', alt: 'Grid image 1' },
-  { src: '/images/grid-image/image-05.png', alt: 'Grid image 2' },
-  { src: '/images/grid-image/image-06.png', alt: 'Grid image 3' },
+  { src: '/project_yf/images/grid-image/image-04.png', alt: 'Grid image 1' },
+  { src: '/project_yf/images/grid-image/image-05.png', alt: 'Grid image 2' },
+  { src: '/project_yf/images/grid-image/image-06.png', alt: 'Grid image 3' },
 ]
 </script>
